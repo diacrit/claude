@@ -1,0 +1,16 @@
+{
+  "name": "claude",
+  "owner": {
+    "name": "diacrit",
+    "url": "https://github.com/diacrit"
+  },
+  "metadata": {
+    "description": "Bookmarks you can talk to. Connect Claude Code to your mobile app.",
+    "version": "0.0.1"
+  },
+  "plugins": [{
+    "name": "diacrit",
+    "source": "./",
+    "description": "Bookmarks you can talk to. Connect Claude Code to your mobile app."
+  }]
+}
