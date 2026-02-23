@@ -75,7 +75,11 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
 
 8. Present a summary and start the conversation.
 
-9. After the conversation winds down, ask: "Want me to save notes from this discussion?"
+9. Saving notes — do NOT prompt after every exchange. Wait for a natural moment:
+   - The conversation reaches a conclusion or decision
+   - The user shares an insight, makes a plan, or learns something worth keeping
+   - Then offer naturally, e.g. "That sounds like it's worth saving — want me to keep notes from this?"
+   - Never repeat the offer if already declined or ignored in this session
    - If yes, write a timestamped summary to `cache/<hash>/discussions.md` in the config directory (append, don't replace)
    - Format:
      ```
