@@ -60,14 +60,11 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
 
    c. **Fetch** — try in order:
       1. **WebFetch** — try this first
-      2. **Playwright** — if WebFetch fails, check: `npx playwright --version 2>/dev/null`
-         If installed: `node -e "const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage();await p.goto('URL');console.log(await p.content());await b.close()})()"`
-      3. **Manual fallback** — if both fail, offer:
-         - "I can open this in your browser — paste the content here and we'll discuss it"
-         - "Want to install Playwright? Run: `npx playwright install chromium`"
+      2. **curl** — if WebFetch fails: `curl -s -L -A "Mozilla/5.0" "URL"` (pipe through head -c 200000 to limit size)
+      3. **Manual fallback** — if both fail, offer: "I can open this in your browser — paste the content here and we'll discuss it"
 
-   d. **Convert to markdown** — if content is HTML (from Playwright or paste), convert to markdown before saving.
-      WebFetch already returns markdown. For HTML, use Claude's own ability to convert — just extract the main content and reformat as clean markdown.
+   d. **Convert to markdown** — if content is HTML (from curl or paste), convert to markdown before saving.
+      WebFetch already returns markdown. For HTML, extract the main article content and reformat as clean markdown.
 
    e. **Save to cache** — save as `fetch-YYYY-MM-DD-HH-MM.md` in the config directory's `cache/<hash>/`
 
