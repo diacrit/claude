@@ -14,7 +14,7 @@ Save URLs from your phone, discuss them with Claude. No email, no password — j
 
 ```bash
 claude plugin marketplace add diacrit/claude
-claude plugin install diacrit@diacrit-claude
+claude plugin install diacrit@claude
 ```
 
 ## Commands
@@ -43,15 +43,15 @@ Fetch your saved bookmarks and discuss them with Claude.
 ## Update (quit Claude first)
 
 ```bash
-claude plugin marketplace update diacrit-claude
-claude plugin update diacrit@diacrit-claude
+claude plugin marketplace update claude
+claude plugin update diacrit@claude
 ```
 
 ## Uninstall (quit Claude first)
 
 ```bash
-claude plugin uninstall diacrit@diacrit-claude
-claude plugin marketplace remove diacrit-claude
+claude plugin uninstall diacrit@claude
+claude plugin marketplace remove claude
 ```
 
 ## License
