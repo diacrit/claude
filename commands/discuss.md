@@ -20,7 +20,7 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
    - If file doesn't exist or is empty: tell user to run `/diacrit:connect` first and stop
    - If `--account` specified, find matching entry by `name`; error if not found
    - If only one account, use it
-   - If multiple accounts and no `--account`, prompt: "Which device?" and list them by name
+   - If multiple accounts and no `--account`, prompt: "Which device?" and list them by name (no dates — just names)
    - Extract `user_key`
 
 3. Fetch new shares from server using Bash:
@@ -54,7 +54,7 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
 
    b. **Check cache** — look for `fetch-*.md` files in the config directory's `cache/<hash>/`
       - If fetches exist, find the most recent one (sort by filename, last wins)
-      - Prompt: "I downloaded this page on **DD-MMM HH:MM**. (1) Download latest (2) That version is fine"
+      - Prompt with relative time (e.g. "2 hours ago", "3 days ago") computed from the filename timestamp: "I downloaded this page **3 days ago**. (1) Download latest (2) That version is fine"
       - If user picks (2), use the cached content
       - If user picks (1), or no fetches exist, proceed to fetch
 
