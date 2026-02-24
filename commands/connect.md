@@ -15,7 +15,12 @@ The user is connecting their Claude Code with a Diacrit mobile app. They have a 
    - If no code is provided, ask the user for it. Mention: "If you don't have Diacrit on your phone yet, visit https://diacrit.com"
    - API base is always `https://diacrit.com/dia`
 
-2. Ask the user: "What would you like to name this computer?" (e.g. "Work MacBook", "Home Desktop")
+2. Determine the computer name:
+   - Config directory: `~/.config/diacrit/` on Mac/Linux, `%APPDATA%/diacrit/` on Windows
+   - Read `config.json` from the config directory if it exists — it has `{"computer_name": "..."}`
+   - If `computer_name` exists, use it silently (do NOT ask the user)
+   - If no `config.json` or no `computer_name`, ask the user: "What would you like to name this computer?" (e.g. "Work MacBook", "Home Desktop")
+   - Save the name to `config.json` in the config directory (create dir if needed)
 
 3. Call the pairing API using Bash:
    ```
