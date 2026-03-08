@@ -1,7 +1,7 @@
 {
   "name": "diacrit",
   "description": "Bookmarks you can talk to. Connect Claude Code to your mobile app.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": {
     "name": "brentgreeff"
   }

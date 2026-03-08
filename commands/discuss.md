@@ -1,6 +1,6 @@
 ---
 description: Open your bookmarks for discussion
-argument-hint: [--account <name>]
+argument-hint: [--account <name>] [<cache-id>]
 skill: NONE
 ---
 
@@ -13,6 +13,7 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
 1. Parse arguments from: `$ARGUMENTS`
    - API base is always `https://diacrit.com/dia`
    - If `--account <name>` is present, use that account from `accounts.json`
+   - If a `<cache-id>` is present (8-char hex), jump straight to the cached content: read the latest `fetch-*.md` and `discussions.md` from `<config-dir>/cache/<cache-id>/` and start the conversation from there (skip steps 2-6)
 
 2. Load account:
    - Config directory: `~/.config/diacrit/` on Mac/Linux, `%APPDATA%/diacrit/` on Windows
@@ -33,7 +34,7 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
 4. If the server returned shares (non-empty array):
    a. Collect the `id` from each share in the response
    b. Read `shares.json` from the config directory if it exists (JSON array), otherwise start with `[]`
-   c. For each share from API, add `user_key` field and include `meta` if present — append to local array, skip if a share with same URL already exists (no `hash` yet — hash is added later when content is fetched)
+   c. For each share from API, add `user_key` field and include `meta` if present — append to local array, skip if a share with same URL already exists, or if `meta` is non-null and matches an existing share's `meta` (no `hash` yet — hash is added later when content is fetched)
    d. Write back to the config directory's `shares.json`
    e. Immediately delete from server using the ids:
       ```
@@ -77,8 +78,10 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
 9. Saving notes — do NOT prompt after every exchange. Wait for a natural moment:
    - The conversation reaches a conclusion or decision
    - The user shares an insight, makes a plan, or learns something worth keeping
+   - **Before moving to the next bookmark**: if there was any discussion beyond the initial summary (follow-up questions, web searches, research), offer to save notes first
    - Then offer naturally, e.g. "That sounds like it's worth saving — want me to keep notes from this?"
    - Never repeat the offer if already declined or ignored in this session
+   - **NB: The whole point of Diacrit is to capture insights. Don't let discussion slip away unsaved — when in doubt, offer.**
    - If yes, write a timestamped summary to `cache/<hash>/discussions.md` in the config directory (append, don't replace)
    - Format:
      ```
@@ -88,6 +91,19 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
      - Key takeaway 2
      ```
    - If `discussions.md` already exists, mention: "There are notes from a previous discussion. Want to see them first?"
+
+10. Project context — if the user mentions a project name you don't recognize, **don't ask what it is** — look it up:
+    a. First search `<config-dir>/projects.json` (curated list with name, path, desc)
+    b. Fall back to `~/.claude/projects/` (directory names are paths with slashes replaced by dashes, use grep/fuzzy match)
+    c. Fall back to `~/projects/` directory names
+    d. If a match is found, read its `MEMORY.md` or `CLAUDE.md` to understand the project and connect the discussion to it
+    e. If no match found, ask the user — then offer to add it to `projects.json`
+    f. This helps bookmarks become actionable rather than a dumping ground
+    - When saving information to another project (roadmap, docs, etc.), include a link back to the cached discussion:
+      ```
+      run: `diacrit:discuss <cache-id>`
+      ```
+      This lets Claude in another session find the original page and discussion notes.
 
 ## Cache Structure
 
