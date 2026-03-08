@@ -23,39 +23,34 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
    - If multiple accounts and no `--account`, prompt: "Which device?" and list them by name (no dates — just names)
    - Extract `user_key`
 
-3. Verify connection exists using Bash:
+3. Fetch new shares from server using Bash:
    ```
-   curl -s -o /dev/null -w '%{http_code}' -X GET https://diacrit.com/dia/connections -H 'Dia-User-Key: <USER_KEY>'
+   curl -s -w '\n%{http_code}' -X GET https://diacrit.com/dia/shares -H 'Dia-User-Key: <USER_KEY>'
    ```
-   - If status is `404`: tell the user "Your device is no longer connected. Run `/diacrit:connect` to pair again." and stop
+   - If status is `401`: tell the user "Your device is no longer connected. Run `/diacrit:connect` to pair again." and stop
    - If status is not `200`: tell the user "Couldn't reach the server. Try again later." and stop
 
-4. Fetch new shares from server using Bash:
-   ```
-   curl -s -X GET https://diacrit.com/dia/shares -H 'Dia-User-Key: <USER_KEY>'
-   ```
-
-5. If the server returned shares (non-empty array):
+4. If the server returned shares (non-empty array):
    a. Collect the `id` from each share in the response
    b. Read `shares.json` from the config directory if it exists (JSON array), otherwise start with `[]`
-   c. For each share from API, add `user_key` field and append — skip if a share with same URL already exists (no `hash` yet — hash is added later when content is fetched)
+   c. For each share from API, add `user_key` field and include `meta` if present — append to local array, skip if a share with same URL already exists (no `hash` yet — hash is added later when content is fetched)
    d. Write back to the config directory's `shares.json`
    e. Immediately delete from server using the ids:
       ```
       curl -s -X DELETE https://diacrit.com/dia/shares -H 'Dia-User-Key: <USER_KEY>' -H 'Content-Type: application/json' -d '{"ids":[1,2,3]}'
       ```
 
-6. Now read `shares.json` from the config directory to get the full local collection.
-   - Split into "new" (just fetched in step 5) and "existing" (already in file before step 5)
+5. Now read `shares.json` from the config directory to get the full local collection.
+   - Split into "new" (just fetched in step 4) and "existing" (already in file before step 4)
 
-7. Present to the user:
-   - If there are new shares: "You have **N** new bookmarks:" then list each with label and URL
+6. Present to the user:
+   - If there are new shares: "You have **N** new bookmarks:" then list each with URL (and `meta` alongside if present — it's whatever text the share sheet bundled with the link, e.g. a page title or snippet)
    - If there are also existing shares: "You also have **M** saved from before. Want me to list them? I can search by topic too."
    - If no new but there are existing: "No new bookmarks, but you have **M** saved. Want to discuss any? I can search by topic."
    - If nothing at all: "No bookmarks yet. Save a URL from your phone and come back!"
    - Ask: "Would you like to discuss any of these?"
 
-8. When the user picks one, get the page content:
+7. When the user picks one, get the page content:
 
    a. **Compute hash** — `<hash>` is the first 8 hex characters of the SHA-256 of the URL
 
@@ -77,9 +72,9 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
 
    f. **Mark as discussed** — add the `hash` to this share's entry in `shares.json` and write back. Presence of `hash` means content has been fetched and cached.
 
-9. Present a summary and start the conversation.
+8. Present a summary and start the conversation. If the share has `meta`, include it as additional context (it's whatever the share sheet sent — could be a page title, selected text, or other snippet from the source app).
 
-10. Saving notes — do NOT prompt after every exchange. Wait for a natural moment:
+9. Saving notes — do NOT prompt after every exchange. Wait for a natural moment:
    - The conversation reaches a conclusion or decision
    - The user shares an insight, makes a plan, or learns something worth keeping
    - Then offer naturally, e.g. "That sounds like it's worth saving — want me to keep notes from this?"
