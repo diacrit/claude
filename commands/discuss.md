@@ -1,6 +1,6 @@
 ---
 description: Open your bookmarks for discussion
-argument-hint: [--account <name>] [<cache-id>]
+argument-hint: [--account <name>]
 skill: NONE
 ---
 
@@ -13,8 +13,6 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
 1. Parse arguments from: `$ARGUMENTS`
    - API base is always `https://diacrit.com/dia`
    - If `--account <name>` is present, use that account from `accounts.json`
-   - If a `<cache-id>` is present (8-char hex), jump straight to the cached content: read the latest `fetch-*.md` and `discussions.md` from `<config-dir>/cache/<cache-id>/` and start the conversation from there (skip steps 2-6)
-
 2. Load account:
    - Config directory: `~/.config/diacrit/` on Mac/Linux, `%APPDATA%/diacrit/` on Windows
    - Read `accounts.json` from the config directory
@@ -101,7 +99,7 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
     f. This helps bookmarks become actionable rather than a dumping ground
     - When saving information to another project (roadmap, docs, etc.), include a link back to the cached discussion:
       ```
-      run: `diacrit:discuss <cache-id>`
+      run: `diacrit:recall <cache-id>`
       ```
       This lets Claude in another session find the original page and discussion notes.
 
