@@ -30,6 +30,7 @@ Resume a previous bookmark discussion from cache. Used when a backlink like `run
    - **Before wrapping up**: if there was meaningful discussion, offer to save
    - **NB: The whole point is to capture insights. Don't let discussion slip away unsaved — when in doubt, offer.**
    - Append to `<config-dir>/cache/<cache-id>/discussions.md` (timestamped, don't replace)
+   - After saving notes, update the bookmark's entry in `index.md` (if it exists in the config directory): change `fetched` to `discussed` and update the date to today. Add a one-sentence summary if missing. If no entry exists for this cache-id, add one — read the topic from the most recent `fetch-*.md` H1, write a one-sentence summary, and find the URL from `shares.json` by matching the hash.
 
 5. Project context — if the user mentions a project name you don't recognize, **don't ask what it is** — look it up:
    a. First search `<config-dir>/projects.json` (curated list with name, path, desc)

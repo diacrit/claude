@@ -42,3 +42,26 @@ The user is connecting their Claude Code with a Diacrit mobile app. They have a 
 6. Confirm to the user:
    - "Connected to <DEVICE_NAME>! Your phone will see this computer as '<COMPUTER_NAME>'."
    - "Note: When you discuss a URL, Diacrit saves a cached copy of the page content locally. Please respect the rights of copyright holders and protected work."
+
+7. Bookmark index setup:
+   - Check if `~/.claude/CLAUDE.md` exists and already contains the text `~/.config/diacrit/index.md`
+   - If the reference already exists, skip silently — nothing to do
+   - If NOT present, ask the user: "Would you like your bookmarks to be discoverable from any Claude session? I'll add a one-line reference to your global CLAUDE.md."
+   - If the user declines, skip — respect the choice
+   - If yes:
+     a. Create `~/.config/diacrit/index.md` if it doesn't exist, with this content:
+        ```
+        # Diacrit Bookmarks
+
+        Your saved bookmarks. Each cache dir has fetched pages and discussion notes.
+        Run `diacrit:recall <id>` to resume any discussion.
+        ```
+     b. If `shares.json` exists and contains entries with a `hash` (previously discussed bookmarks), backfill the index — for each hashed share, read the first H1 from the most recent `fetch-*.md` in `cache/<hash>/` as the topic, check if `discussions.md` exists to determine status (`discussed` vs `fetched`), then add a line to `index.md`:
+        ```
+        - **<Topic>** -- <one-sentence summary> -- <URL> -- `cache/<hash>/` -- <status> <YYYY-MM-DD>
+        ```
+     c. Append this line to the `## Reference Trees` section of `~/.claude/CLAUDE.md` (after the last `- ` bullet in that section):
+        ```
+        - [`~/.config/diacrit/index.md`](~/.config/diacrit/index.md) — Your saved bookmarks. Consult when the user mentions `diacrit`, bookmarks, a saved link, or a topic that could be a cached page. To link back to a bookmark from project docs, use `run: diacrit:recall <cache-id>` — don't duplicate the cached content, just reference it.
+        ```
+     d. Confirm: "Done — your bookmarks are now visible from any Claude session."

@@ -71,6 +71,14 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
 
    f. **Mark as discussed** — add the `hash` to this share's entry in `shares.json` and write back. Presence of `hash` means content has been fetched and cached.
 
+   g. **Update bookmark index** — if `index.md` exists in the config directory:
+      - Extract the topic: use the first H1 from the fetched markdown. If no H1, use the page's domain + path as topic. Review the title — if it's vague, too long, or marketing copy, shorten it to something descriptive (e.g. "Vercel Sandbox is now Generally Available" → "Vercel Sandbox GA").
+      - Check if an entry with this `cache/<hash>/` already exists in `index.md`
+      - If exists, update the date and status to `fetched <today>`
+      - Write a one-sentence summary of the page content (what it is, why it's interesting)
+      - If new, append: `- **<Topic>** -- <summary> -- <URL> -- \`cache/<hash>/\` -- fetched <YYYY-MM-DD>`
+      - If updating an existing entry, add the summary if missing
+
 8. Present a summary and start the conversation. If the share has `meta`, include it as additional context (it's whatever the share sheet sent — could be a page title, selected text, or other snippet from the source app).
 
 9. Saving notes — do NOT prompt after every exchange. Wait for a natural moment:
@@ -81,6 +89,7 @@ The user wants to talk about their saved URLs. This is the main Diacrit experien
    - Never repeat the offer if already declined or ignored in this session
    - **NB: The whole point of Diacrit is to capture insights. Don't let discussion slip away unsaved — when in doubt, offer.**
    - If yes, write a timestamped summary to `cache/<hash>/discussions.md` in the config directory (append, don't replace)
+   - After saving notes, update the bookmark's entry in `index.md` (if it exists): change `fetched` to `discussed` and update the date to today
    - Format:
      ```
      ## 2026-02-17
