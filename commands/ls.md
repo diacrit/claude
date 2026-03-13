@@ -58,3 +58,4 @@ Show the user's bookmark list at a glance.
      - If pending == 0: "Server: no new shares"
      - If request failed: "Server: could not check (offline?)"
    - If user says yes, follow the download flow from `/diacrit:discuss` (save to `shares.json`, dedup, delete from server)
+   - To delete shares from server: `DELETE https://diacrit.com/dia/shares` with header `Dia-User-Key: <user_key>` and JSON body `{"ids":["<share-id>", ...]}`

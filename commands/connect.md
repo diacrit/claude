@@ -39,11 +39,20 @@ The user is connecting their Claude Code with a Diacrit mobile app. They have a 
    - Otherwise append: `{"user_key": "<KEY>", "paired_at": "<ISO8601>", "name": "<DEVICE_NAME>"}`
    - Write back the updated array to the config directory's `accounts.json`
 
-6. Confirm to the user:
+6. Set the default project directory:
+   - If CWD is NOT `$HOME` (`~`): save `"project": "<CWD>"` on the account entry and tell the user: "Saved `<CWD>` as the default project for <DEVICE_NAME>."
+   - If CWD IS `$HOME`:
+     - Check other accounts in `accounts.json` for existing `project` values
+     - If any exist, show them as a numbered list, plus "or type a path"
+     - If none exist, ask: "What directory should be the default for this account?"
+     - If the user presses Enter without typing a path, default to `$HOME`
+   - Always save `"project": "<path>"` on the account entry — every account must have a project path
+
+7. Confirm to the user:
    - "Connected to <DEVICE_NAME>! Your phone will see this computer as '<COMPUTER_NAME>'."
    - "Note: When you discuss a URL, Diacrit saves a cached copy of the page content locally. Please respect the rights of copyright holders and protected work."
 
-7. Bookmark index setup:
+8. Bookmark index setup:
    - Check if `~/.claude/CLAUDE.md` exists and already contains the text `~/.config/diacrit/index.md`
    - If the reference already exists, skip silently — nothing to do
    - If NOT present, ask the user: "Would you like your bookmarks to be discoverable from any Claude session? I'll add a one-line reference to your global CLAUDE.md."

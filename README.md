@@ -51,6 +51,10 @@ Resume a cached discussion by ID. Used when a backlink appears in project docs.
 /diacrit:recall c1cb205a
 ```
 
+## Menu bar companion
+
+Don't want to check manually? **Waiting** is a native macOS menu bar app that shows unread bookmark counts across all your paired devices. Click an account to jump straight into Claude Code. See [WAITING.md](./WAITING.md).
+
 ## How context linking works
 
 Discussed bookmarks are indexed locally. Any Claude session can find them — no duplication, just backlinks. See [CONTEXT-LINKING.md](./CONTEXT-LINKING.md) for the full picture.
