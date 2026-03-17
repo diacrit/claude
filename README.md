@@ -2,6 +2,8 @@
 
 [![Download on the App Store](https://diacrit.com/download-on-app-store.svg)](https://apps.apple.com/us/app/diacrit/id6759536023)
 
+[![Watch the install demo](https://img.shields.io/badge/▶_Watch_Demo-YouTube-red)](https://youtu.be/hLdfA7VfNpM)
+
 Bookmarks you can talk to. Connect Claude Code to the Diacrit mobile app.
 
 ## What is Diacrit?
