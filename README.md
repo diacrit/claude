@@ -1,7 +1,7 @@
 # diacrit/claude
 
 [![Download on the App Store](https://diacrit.com/download-on-app-store.svg)](https://apps.apple.com/us/app/diacrit/id6759536023)
-[![Get it on Google Play](https://diacrit.com/get-it-on-google-play.svg)](https://play.google.com/store/apps/details?id=com.diacrit.app)
+[![Get it on Google Play](https://diacrit.com/download-on-play-store.svg)](https://play.google.com/store/apps/details?id=com.diacrit.app)
 
 [![Watch the install demo](https://img.shields.io/badge/▶_Watch_Demo-YouTube-red)](https://youtu.be/hLdfA7VfNpM)
 
